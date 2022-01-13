@@ -46,18 +46,22 @@ export const upload = (selector, options = {}) => {
 
       const reader = new FileReader();
       reader.onload = (e) => {
-        const src = e.target.result;
+        // const src = e.target.result;
 
         preview.insertAdjacentHTML(
           "afterbegin",
-          `<div class="preview-image">
-					<div class="preview-remove" data-name="${file.name}">&times;</div>
-					<img src="${src}" alt="${file.name}" />
-					<div class="preview-info">
-						<span>${file.name} </span>
-						${bytesToSize(file.size)}
-					</div>
-				</div>`
+          `<div class="attachment__item">
+            <div class="attachment__row">
+              <div class="attachment__image">
+                <img src="src/attachment.svg" alt="" />
+                <span> ${file.name} </span>
+              </div>
+              <div class="attachment__icon preview-remove" >
+                <img src="src/trash.svg" alt="" />
+                <span> Удалить </span>
+              </div>
+            </div>
+          </div>`
         );
       };
       reader.readAsDataURL(file);
@@ -76,7 +80,7 @@ export const upload = (selector, options = {}) => {
 
     const block = preview
       .querySelector(`[data-name="${name}"]`)
-      .closest(".preview-image");
+      .closest(".attachment__item");
 
     block.classList.add("removing");
     setTimeout(() => {
@@ -88,6 +92,7 @@ export const upload = (selector, options = {}) => {
   input.addEventListener("change", changeHandler);
   preview.addEventListener("click", removeHandler);
   uploadButton.addEventListener("click", uploadHandler);
+
 };
 
 function bytesToSize(bytes) {
